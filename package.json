@@ -2,10 +2,6 @@
   "name": "node-static-server",
   "version": "0.0.1",
   "dependencies": {
-    "express": "4.17.x"
-  },
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "express": "^4.17.1"
   }
 }
