@@ -1,7 +1,14 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
-app.use(express.static(__dirname));
+STATIC_DIR = path.resolve(__dirname)
+INDEX_PATH = path.resolve(__dirname, 'index.html')
+
+app.use(express.static(STATIC_DIR));
+app.get('/*', (req, res) => {
+    res.sendFile(INDEX_PATH);
+});
 
 const port = process.env.PORT || 80;
 
