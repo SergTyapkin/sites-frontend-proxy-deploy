@@ -1,12 +1,11 @@
-const express = require('express');
-const path = require('path');
-const proxy = require("express-http-proxy");
-const app = express();
+express = require('express');
+path = require('path');
+proxy = require('express-http-proxy');
+app = express();
 
-const
-    STATIC_DIR = path.resolve(__dirname);
-    INDEX_PATH = path.resolve(__dirname, 'index.html');
-    API_URL = 'http://squest-api.herokuapp.com/api';
+STATIC_DIR = path.resolve(__dirname);
+INDEX_PATH = path.resolve(__dirname, 'index.html');
+API_URL = 'http://squest-api.herokuapp.com/api';
 
 app.use('/api', proxy(API_URL));
 
