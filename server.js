@@ -3,19 +3,38 @@ path = require('path');
 proxy = require('express-http-proxy');
 app = express();
 
-STATIC_DIR = path.resolve(__dirname);
-INDEX_PATH = path.resolve(__dirname, 'index.html');
-API_URL = 'http://squest-api.herokuapp.com/api';
+ROOT_DIR = __dirname;
 
-app.use('/api', proxy(API_URL));
+MAP_APIS = {
+    squest: {
+        apiUrl: 'http://squest-api.herokuapp.com/api',
+        staticDir: 'static',
+    },
+    fnews: {
+        apiUrl: 'http://example.com/api',
+        staticDir: 'static',
+    },
+}
 
-app.use(express.static(STATIC_DIR));
-app.get('/*', (req, res) => {
-    res.sendFile(INDEX_PATH);
+
+app.use('/:site/api', (req, res) => {
+    const site = req.params.site;
+    const siteConfig = MAP_APIS[site];
+    return proxy(siteConfig.apiUrl);
+}
+
+for (const site of Object.keys(MAP_APIS))
+    app.use('/' + site, express.static(STATIC_DIR));
+
+app.get('/:site/*', (req, res) => {
+    const site = req.params.site;
+    const siteConfig = MAP_APIS[site];
+    const indexPath = siteConfig.indexPath || 'index.html':
+    res.sendFile(path.resolve(ROOT_DIR, site, siteConfig.staticDir, INDEX_PATH);
 });
 
-const port = process.env.PORT || 80;
 
+const port = process.env.PORT || 80;
 app.listen(port, function () {
     console.log('Server listening port: ' + port);
 });
