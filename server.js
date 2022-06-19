@@ -5,6 +5,7 @@ app = express();
 
 ROOT_DIR = __dirname;
 
+DEFAULT_STATIC_PATH = 'default_static';
 SITE_CONFIGS = {
     squest: {
         apiPath: '/api',
@@ -42,6 +43,13 @@ for (const [name, config] of Object.entries(SITE_CONFIGS)) {
         res.sendFile(path.resolve(ROOT_DIR, config.staticDir, req.params.path));
     });
 }
+
+app.use(`/`, express.static(DEFAULT_STATIC_PATH));
+
+//The 404 route with global index.html
+app.get('*', function(req, res){
+    res.status(404).sendFile(path.resolve(ROOT_DIR, DEFAULT_STATIC_PATH, 'index.html'));
+});
 
 
 const port = process.env.PORT || 80;
