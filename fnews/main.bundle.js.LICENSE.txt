@@ -1,0 +1,43 @@
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * vuex v4.0.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
+
+/*! dontAppend && */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/** !
+ * @license FusionCharts JavaScript Library
+ * Copyright FusionCharts, Inc.
+ * License Information at <http://www.fusioncharts.com/license>
+ */
+
+/** !
+ * @license FusionCharts JavaScript Library - KDtree
+ * Copyright FusionCharts, Inc.
+ * License Information at <http://www.fusioncharts.com/license>
+ *
+ * @version //? write(JSON.parse(require('fs').readFileSync('./package.json')).version);
+ */
+
+/**!
+* @license FusionCharts JavaScript Library
+* Copyright FusionCharts, Inc.
+* License Information at <http://www.fusioncharts.com/license>
+*
+* @version 3.18.0
+*
+* @attributions (infers respective third-party copyrights)
+* Raphael 2.1.0 (modified as 'Red Raphael') <http://raphaeljs.com/license.html>
+* JSON v2 <http://www.JSON.org/js.html>
+* Firebug Lite 1.3.0 <http://getfirebug.com/firebuglite>
+*/

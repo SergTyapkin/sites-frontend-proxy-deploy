@@ -5,33 +5,43 @@ app = express();
 
 ROOT_DIR = __dirname;
 
-MAP_APIS = {
+SITE_CONFIGS = {
     squest: {
-        apiUrl: 'http://squest-api.herokuapp.com/api',
-        staticDir: 'static',
+        apiPath: '/api',
+        apiRedirectUrl: 'http://squest-api.herokuapp.com/api',
+
+        staticDir: 'squest',
+        indexHtml: 'index.html',
+        SPA: true,
     },
     fnews: {
-        apiUrl: 'http://example.com/api',
-        staticDir: 'static',
+        apiPath: '/api',
+        apiRedirectUrl: 'http://example.com/api',
+
+        staticDir: 'fnews',
+        indexHtml: 'index.html',
+        SPA: true,
     },
 }
 
 
-app.use('/:site/api', (req, res) => {
-    const site = req.params.site;
-    const siteConfig = MAP_APIS[site];
-    return proxy(siteConfig.apiUrl);
+for (const [name, config] of Object.entries(SITE_CONFIGS)) {
+    // api requests
+    app.use(`/${name}${config.apiPath}`, proxy(config.apiRedirectUrl));
+
+    // path files requests
+    app.use(`/${name}`, express.static(config.staticDir));
+
+    // another path requests -> resolve to index.html
+    app.get(`/${name}/:path`, (req, res) => {
+        if (config.SPA) {
+            console.log(req.path, "send index.html");
+            res.sendFile(path.resolve(ROOT_DIR, config.staticDir, config.indexHtml || 'index.html'));
+            return;
+        }
+        res.sendFile(path.resolve(ROOT_DIR, config.staticDir, req.params.path));
+    });
 }
-
-for (const site of Object.keys(MAP_APIS))
-    app.use('/' + site, express.static(STATIC_DIR));
-
-app.get('/:site/*', (req, res) => {
-    const site = req.params.site;
-    const siteConfig = MAP_APIS[site];
-    const indexPath = siteConfig.indexPath || 'index.html':
-    res.sendFile(path.resolve(ROOT_DIR, site, siteConfig.staticDir, INDEX_PATH);
-});
 
 
 const port = process.env.PORT || 80;

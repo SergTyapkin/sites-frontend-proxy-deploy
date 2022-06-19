@@ -4,5 +4,12 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2"
+  },
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "engines" : {
+    "npm" : ">=7.0.0",
+    "node" : ">=16.0.0"
   }
 }
