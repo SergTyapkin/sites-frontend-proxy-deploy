@@ -10,9 +10,13 @@
   </head>
 
   <style>
+      html {
+          overflow-x: hidden;
+      }
       body {
           padding: 30px 100px;
           width: 100%;
+          max-width: 100vw;
           overflow-x: hidden;
           min-height: 100vh;
           margin: 0;
@@ -44,6 +48,7 @@
           border: 1px solid #0c2129;
           box-shadow: -2px 2px 4px rgb(0 0 0 / 40%);
           background: linear-gradient(60deg,#2e143c 0%,rgba(58,109,126,0.5) 50%,#9b1616 50%,#de932b 100%);
+          /*background: linear-gradient(60deg,#0e2b4a 0%,rgb(43 171 27 / 42%) 50%,#9b1616 50%,#de932b 100%);*/
           background-size: 300% 100%;
           background-position-x: 0;
           transition: all .4s ease;
@@ -51,7 +56,7 @@
           content: "";
           position: absolute;
           inset: 0;
-          transform: skewX(-30deg);
+          transform: skewX(-26deg);
       }
       .sites-list li:hover:before {
           border: 1px solid #091a20;
@@ -92,6 +97,9 @@
           margin-left: auto;
           margin-right: auto;
           text-align: center;
+          width: 100%;
+          max-width: 500px;
+          height: 300px;
       }
       .sites-list li a:not(:first-child) {
           color: #bbbbbb;
@@ -108,6 +116,30 @@
       .sites-list li .lk-code .info {
           margin-left: -70px;
           margin-right: 130px;
+      }
+
+      @media (max-width: 1080px) {
+          body {
+              padding-left: 20px;
+              padding-right: 20px;
+          }
+          .sites-list li:before {
+              min-width: 500px;
+              left: -500px;
+          }
+          .sites-list li a * {
+              margin-left: 0 !important;
+          }
+      }
+      @media (max-width: 700px) {
+          .sites-list li:before {
+              right: -100px;
+          }
+      }
+      @media (max-width: 600px) {
+          .sites-list li:before {
+              right: -200px;
+          }
       }
   </style>
 
@@ -139,7 +171,7 @@
                       <i>Самый большой мой проект на данный момент.</i><br>
                       <i>Видосик тоже я монтировал)</i>
                   </div>
-                  <div class="centered"><iframe width="560" height="315" src="https://www.youtube.com/embed/T47pOIlQmrA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                  <div class="centered"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/T47pOIlQmrA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                   <div class="info">Написан на фреймворке <u>Vue.js</u>. Редактор кода - <u>Ace Editor</u>.
                       Онлайн редактор - дописанный лично аддон для Ace Editor'a к библиотеке <u>Operational Transformation</u>.
                       Видео-конференции на <u>WebRTC</u>.
