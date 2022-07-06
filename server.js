@@ -1,3 +1,6 @@
+fs = require("fs");
+http = require('http');
+https = require('https');
 express = require('express');
 path = require('path');
 proxy = require('express-http-proxy');
@@ -5,13 +8,16 @@ app = express();
 
 ROOT_DIR = __dirname;
 
-DEFAULT_STATIC_PATH = 'default_static';
+PRIVATE_KEY_PATH = 'ssl/server.key';
+PUBLIC_KEY_PATH = 'ssl/server.crt';
+
+DEFAULT_STATIC_PATH = 'static/default_static';
 SITE_CONFIGS = {
     squest: {
         apiPath: '/api',
         apiRedirectUrl: 'http://squest-api.herokuapp.com/api',
 
-        staticDir: 'squest',
+        staticDir: 'static/squest',
         indexHtml: 'index.html',
         SPA: true,
     },
@@ -19,7 +25,7 @@ SITE_CONFIGS = {
         apiPath: '/api',
         apiRedirectUrl: 'http://example.com/api',
 
-        staticDir: 'fnews',
+        staticDir: 'static/fnews',
         indexHtml: 'index.html',
         SPA: true,
     },
@@ -52,7 +58,21 @@ app.get('*', function(req, res){
 });
 
 
-const port = process.env.PORT || 80;
-app.listen(port, function () {
-    console.log('Server listening port: ' + port);
+const HTTP_PORT = process.env.PORT || 80;
+const HTTPS_PORT = process.env.PORT || 443;
+
+const privateKey = fs.readFileSync(PRIVATE_KEY_PATH);
+const certificate = fs.readFileSync(PUBLIC_KEY_PATH);
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer({
+    key: privateKey,
+    cert: certificate
+}, app);
+
+httpServer.listen(HTTP_PORT, 'localhost', () => {
+    console.log(`http server started at :${HTTP_PORT}`);
+});
+httpsServer.listen(HTTPS_PORT, () => {
+    console.log(`https server started at :${HTTPS_PORT}`);
 });
