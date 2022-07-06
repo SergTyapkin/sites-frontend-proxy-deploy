@@ -70,9 +70,13 @@ const httpsServer = https.createServer({
     cert: certificate
 }, app);
 
-httpServer.listen(HTTP_PORT, 'localhost', () => {
+/*httpServer.listen(HTTP_PORT, 'localhost', () => {
     console.log(`http server started at :${HTTP_PORT}`);
 });
-/*httpsServer.listen(HTTPS_PORT, () => {
+httpsServer.listen(HTTPS_PORT, () => {
     console.log(`https server started at :${HTTPS_PORT}`);
 });*/
+
+app.listen(HTTP_PORT, () => {
+    console.log('Server listening port: ' + HTTP_PORT);
+});
