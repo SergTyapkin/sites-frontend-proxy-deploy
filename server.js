@@ -58,7 +58,7 @@ app.get('*', function(req, res){
 });
 
 
-const HTTP_PORT = process.env.PORT || 80;
+const HTTP_PORT = /*process.env.PORT ||*/ 80;
 const HTTPS_PORT = process.env.PORT || 443;
 
 const privateKey = fs.readFileSync(PRIVATE_KEY_PATH);
