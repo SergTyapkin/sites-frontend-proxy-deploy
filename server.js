@@ -15,7 +15,7 @@ DEFAULT_STATIC_PATH = 'static/default_static';
 SITE_CONFIGS = {
     squest: {
         apiPath: '/api',
-        apiRedirectUrl: 'http://127.0.0.1:9000/api',
+        apiRedirectUrl: 'http://squest-api.herokuapp.com/api',
 
         staticDir: 'static/squest',
         indexHtml: 'index.html',
@@ -38,15 +38,23 @@ for (const [name, config] of Object.entries(SITE_CONFIGS)) {
     // api requests
     app.use(`/${name}${config.apiPath}`, proxy(config.apiRedirectUrl));
 
+    // only http redirect
+    app.get(`/${name}/*`, (req, res, next) => {
+        const host = req.get('Host');
+        if (config.httpsOnly && (host !== '127.0.0.1') && (host !== 'localhost')) {
+            if (req.headers['x-forwarded-proto'] !== 'https') {
+                res.redirect('https://' + host + req.url)
+                return;
+            }
+        }
+        next();
+    });
+
     // path files requests
     app.use(`/${name}`, express.static(config.staticDir));
 
     // another path requests -> resolve to index.html
     app.get(`/${name}/:path`, (req, res) => {
-        // if (config.httpsOnly)
-        //     if (req.headers['x-forwarded-proto'] !== 'https')
-        //         res.redirect('https://' + req.get('Host') + req.url)
-
         if (config.SPA) {
             console.log(req.path, "send index.html");
             res.sendFile(path.resolve(ROOT_DIR, config.staticDir, config.indexHtml || 'index.html'));
