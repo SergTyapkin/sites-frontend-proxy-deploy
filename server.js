@@ -43,6 +43,7 @@ for (const [name, config] of Object.entries(SITE_CONFIGS)) {
         const host = req.get('Host');
         if (config.httpsOnly && (host !== '127.0.0.1') && (host !== 'localhost')) {
             if (req.headers['x-forwarded-proto'] !== 'https') {
+                console.log("HTTPS redirect on ", host + req.url)
                 res.redirect('https://' + host + req.url)
                 return;
             }
@@ -54,9 +55,9 @@ for (const [name, config] of Object.entries(SITE_CONFIGS)) {
     app.use(`/${name}`, express.static(config.staticDir));
 
     // another path requests -> resolve to index.html
-    app.get(`/${name}/:path`, (req, res) => {
+    app.get(`/${name}/*`, (req, res) => {
         if (config.SPA) {
-            console.log(req.path, "send index.html");
+            console.log(req.path, `send "${name}" index.html`);
             res.sendFile(path.resolve(ROOT_DIR, config.staticDir, config.indexHtml || 'index.html'));
             return;
         }
@@ -75,14 +76,14 @@ app.get('*', function(req, res){
 const HTTP_PORT = process.env.PORT || 80;
 const HTTPS_PORT = process.env.PORT || 443;
 
-const privateKey = fs.readFileSync(PRIVATE_KEY_PATH);
-const certificate = fs.readFileSync(PUBLIC_KEY_PATH);
-
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer({
-    key: privateKey,
-    cert: certificate
-}, app);
+// const privateKey = fs.readFileSync(PRIVATE_KEY_PATH);
+// const certificate = fs.readFileSync(PUBLIC_KEY_PATH);
+//
+// const httpServer = http.createServer(app);
+// const httpsServer = https.createServer({
+//     key: privateKey,
+//     cert: certificate
+// }, app);
 
 /*httpServer.listen(HTTP_PORT, 'localhost', () => {
     console.log(`http server started at :${HTTP_PORT}`);
