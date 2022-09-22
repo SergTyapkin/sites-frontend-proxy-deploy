@@ -93,5 +93,5 @@ httpsServer.listen(HTTPS_PORT, () => {
 });*/
 
 app.listen(HTTP_PORT, () => {
-    console.log('Server listening port: ' + HTTP_PORT);
+    console.log('Server working on http://localhost:' + HTTP_PORT);
 });
