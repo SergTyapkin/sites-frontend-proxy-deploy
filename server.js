@@ -15,7 +15,7 @@ DEFAULT_STATIC_PATH = 'static/default_static';
 SITE_CONFIGS = {
     squest: {
         apiPath: '/api',
-        apiRedirectUrl: 'http://squest-api.herokuapp.com/api',
+        apiRedirectUrl: 'http://127.0.0.1:9000/api',
 
         staticDir: 'static/squest',
         indexHtml: 'index.html',
